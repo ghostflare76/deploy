@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX Research Quest: BMAD-METHOD Adventure</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.4;
+        }
+        
+        .terminal {
+            background-color: #1a1a1a;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .game-area {
+            min-height: 400px;
+        }
+        
+        .story-text {
+            margin-bottom: 20px;
+            animation: typewriter 0.5s steps(50);
+        }
+        
+        .agent-message {
+            color: #ffff00;
+            background-color: #2a2a0a;
+            padding: 10px;
+            border-left: 4px solid #ffff00;
+            margin: 10px 0;
+        }
+        
+        .user-message {
+            color: #00ffff;
+            background-color: #0a2a2a;
+            padding: 10px;
+            border-left: 4px solid #00ffff;
+            margin: 10px 0;
+        }
+        
+        .options {
+            margin: 20px 0;
+        }
+        
+        .option {
+            background-color: #2a2a2a;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 10px 15px;
+            margin: 5px 0;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background-color: #00ff00;
+            color: #000;
+        }
+        
+        .status-bar {
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-top: 1px solid #00ff00;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #2a2a2a;
+            border: 1px solid #00ff00;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #00ff00;
+            transition: width 0.5s;
+        }
+        
+        .agent-list {
+            background-color: #1a1a2a;
+            padding: 10px;
+            border: 1px solid #00ffff;
+            margin: 10px 0;
+        }
+        
+        .agent-available {
+            color: #00ff00;
+        }
+        
+        .agent-inactive {
+            color: #666666;
+        }
+        
+        .document-preview {
+            background-color: #2a1a1a;
+            border: 1px solid #ff00ff;
+            padding: 10px;
+            margin: 10px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .cursor {
+            animation: blink 1s infinite;
+        }
+        
+        .input-area {
+            margin-top: 20px;
+        }
+        
+        .user-input {
+            background-color: #0a0a0a;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            width: calc(100% - 22px);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .send-button {
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .send-button:hover {
+            background-color: #00cc00;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="header">
+            <h1>🔬 UX RESEARCH QUEST 🔬</h1>
+            <p>BMAD-METHOD와 함께하는 UX 평가 방법론 개발 여정</p>
+        </div>
+        
+        <div class="game-area" id="gameArea">
+            <div class="story-text" id="storyText">
+                > 시스템 부팅 중...<br>
+                > BMAD-METHOD 에이전트 프레임워크 초기화 완료<br>
+                > UX 리서치 시나리오 로딩...<br><br>
+                
+                📍 <strong>당신의 역할:</strong> UX 리서처 아이유<br>
+                📍 <strong>현재 위치:</strong> BMAD-METHOD 워크스페이스<br>
+                📍 <strong>미션:</strong> 모바일 쇼핑앱의 UX 평가 방법론 수립<br><br>
+                
+                당신은 처음으로 BMAD-METHOD를 사용하게 된  UX 리서처입니다. 
+                회사에서 새로운 모바일 쇼핑앱 'ShopEasy'의 사용성 평가를 담당하게 되었고, 
+                체계적인 UX 평가 방법론을 수립해야 합니다.<br><br>
+                
+                <span class="cursor">▋</span>
+            </div>
+            
+            <div class="agent-list">
+                <h3>🤖 사용 가능한 BMAD 에이전트들:</h3>
+                <div class="agent-available">✓ Mary (비즈니스 분석가) - 브레인스토밍 전문</div>
+                <div class="agent-inactive">○ PM (프로젝트 매니저) - PRD 작성 전문</div>
+                <div class="agent-inactive">○ Architect (아키텍트) - 시스템 설계 전문</div>
+                <div class="agent-inactive">○ Scrum Master - 개발 스토리 관리</div>
+                <div class="agent-inactive">○ Developer - 실제 구현 담당</div>
+                <div class="agent-inactive">○ QA - 품질 검증 담당</div>
+            </div>
+            
+            <div class="status-bar">
+                <span>프로젝트 진행률:</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 5%;"></div>
+                </div>
+                <span id="progressText">5%</span>
+            </div>
+        </div>
+        
+        <div class="options" id="optionsArea">
+            <button class="option" onclick="startBrainstorming()">
+                🧠 Mary와 브레인스토밍 시작하기
+            </button>
+            <button class="option" onclick="exploreWorkspace()">
+                🔍 워크스페이스 살펴보기
+            </button>
+            <button class="option" onclick="checkDocuments()">
+                📄 기존 문서 확인하기
+            </button>
+        </div>
+        
+        <div class="input-area" id="inputArea" style="display: none;">
+            <input type="text" class="user-input" id="userInput" placeholder="당신의 응답을 입력하세요...">
+            <button class="send-button" onclick="sendMessage()">전송</button>
+        </div>
+    </div>
+
+    <script>
+        let gameState = {
+            currentStage: 'intro',
+            progress: 5,
+            activeAgent: null,
+            conversationHistory: [],
+            documents: [],
+            researchMethods: []
+        };
+
+        const agents = {
+            mary: {
+                name: "Mary (비즈니스 분석가)",
+                personality: "창의적이고 질문을 많이 하는 브레인스토밍 전문가",
+                color: "#ffff00"
+            },
+            pm: {
+                name: "PM (프로젝트 매니저)", 
+                personality: "체계적이고 논리적인 요구사항 정리 전문가",
+                color: "#ff8800"
+            },
+            architect: {
+                name: "Architect (시스템 아키텍트)",
+                personality: "구조적 사고와 시스템 설계 전문가", 
+                color: "#8800ff"
+            }
+        };
+
+        function updateProgress(newProgress) {
+            gameState.progress = newProgress;
+            document.getElementById('progressFill').style.width = newProgress + '%';
+            document.getElementById('progressText').textContent = newProgress + '%';
+        }
+
+        function addMessage(sender, message, isAgent = false) {
+            const gameArea = document.getElementById('gameArea');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = isAgent ? 'agent-message' : 'user-message';
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+            gameArea.appendChild(messageDiv);
+            gameArea.scrollTop = gameArea.scrollHeight;
+            
+            gameState.conversationHistory.push({
+                sender: sender,
+                message: message,
+                timestamp: new Date()
+            });
+        }
+
+        function startBrainstorming() {
+            gameState.currentStage = 'brainstorming';
+            gameState.activeAgent = 'mary';
+            updateProgress(15);
+            
+            document.getElementById('optionsArea').style.display = 'none';
+            document.getElementById('inputArea').style.display = 'block';
+            
+            setTimeout(() => {
+                addMessage("Mary", `안녕하세요, 아이유님! 저는 BMAD-METHOD의 비즈니스 분석가 Mary입니다. 🎯<br><br>
+                모바일 쇼핑앱 'ShopEasy'의 UX 평가 방법론을 함께 만들어보겠습니다!<br><br>
+                
+                먼저 몇 가지 질문을 드릴게요:<br>
+                1️⃣ 이 앱의 주요 사용자층은 누구라고 생각하시나요?<br>
+                2️⃣ 가장 중요하게 평가하고 싶은 UX 요소는 무엇인가요?<br>
+                3️⃣ 기존에 사용해보신 UX 평가 방법이 있다면 어떤 것들이 있을까요?<br><br>
+                
+                하나씩 차근차근 답변해주시면, 제가 20가지 브레인스토밍 기법 중에서 최적의 방법을 추천해드릴게요! 🚀`, true);
+            }, 1000);
+        }
+
+        function exploreWorkspace() {
+            addMessage("시스템", `🔍 BMAD-METHOD 워크스페이스 탐색 중...<br><br>
+            
+            📁 <strong>현재 프로젝트 구조:</strong><br>
+            ├── /docs (문서 자동 저장 공간)<br>
+            ├── /brainstorming (브레인스토밍 결과)<br>
+            ├── /requirements (요구사항 문서)<br>
+            ├── /architecture (설계 문서)<br>
+            └── /research_methods (UX 평가 방법론)<br><br>
+            
+            💡 <strong>특징:</strong><br>
+            • 모든 대화와 결과물이 실시간으로 문서화됩니다<br>
+            • 에이전트 간 협업으로 체계적인 방법론을 구축합니다<br>
+            • 웹 인터페이스 없이도 IDE 내에서 모든 작업이 가능합니다<br><br>
+            
+            다음 단계를 선택하세요:`);
+            
+            document.getElementById('optionsArea').innerHTML = `
+                <button class="option" onclick="startBrainstorming()">
+                    🧠 Mary와 브레인스토밍 시작하기
+                </button>
+                <button class="option" onclick="checkTemplates()">
+                    📋 UX 평가 템플릿 확인하기
+                </button>
+            `;
+        }
+
+        function checkDocuments() {
+            addMessage("시스템", `📄 기존 문서 스캔 중...<br><br>
+            
+            <div class="document-preview">
+            <strong>발견된 관련 문서들:</strong><br><br>
+            
+            📊 <strong>company_ux_guidelines.md</strong><br>
+            - 회사 UX 평가 가이드라인<br>
+            - 기본 사용성 테스트 프로세스<br>
+            - 접근성 체크리스트<br><br>
+            
+            📱 <strong>mobile_app_benchmarks.xlsx</strong><br>  
+            - 경쟁사 쇼핑앱 벤치마크 데이터<br>
+            - 사용자 만족도 점수<br>
+            - 주요 페인포인트 분석<br><br>
+            
+            👥 <strong>user_persona_draft.pdf</strong><br>
+            - 초기 사용자 페르소나 (미완성)<br>
+            - 타겟 연령대: 20-40세<br>
+            - 주요 쇼핑 패턴 정보<br>
+            </div>
+            
+            이 정보들을 바탕으로 Mary와 더 구체적인 브레인스토밍을 진행할 수 있습니다!`);
+            
+            updateProgress(10);
+            
+            document.getElementById('optionsArea').innerHTML = `
+                <button class="option" onclick="startAdvancedBrainstorming()">
+                    🚀 기존 자료를 활용한 고급 브레인스토밍
+                </button>
+                <button class="option" onclick="startBrainstorming()">
+                    🧠 기본 브레인스토밍부터 시작
+                </button>
+            `;
+        }
+
+        function startAdvancedBrainstorming() {
+            gameState.currentStage = 'advanced_brainstorming';
+            updateProgress(20);
+            
+            document.getElementById('optionsArea').style.display = 'none';
+            document.getElementById('inputArea').style.display = 'block';
+            
+            setTimeout(() => {
+                addMessage("Mary", `훌륭해요! 기존 자료들을 확인하셨군요! 📊✨<br><br>
+                
+                기존 문서들을 분석한 결과, 몇 가지 흥미로운 브레인스토밍 기법을 제안드릴 수 있어요:<br><br>
+                
+                🎭 <strong>역할극 기법:</strong><br>
+                • "바쁜 직장인 페르소나"로서 5분 안에 구매해야 하는 상황<br>
+                • "시니어 사용자"가 처음 앱을 사용하는 상황<br>
+                • "접근성이 필요한 사용자"의 관점<br><br>
+                
+                🤔 <strong>5W1H 분석:</strong><br>
+                • Who: 누가 언제 이 앱을 사용하는가?<br>
+                • What: 무엇을 평가해야 하는가?<br>
+                • Where: 어디서 테스트할 것인가?<br>
+                • When: 언제 평가할 것인가?<br>
+                • Why: 왜 이 방법이 필요한가?<br>
+                • How: 어떻게 측정할 것인가?<br><br>
+                
+                어떤 기법으로 시작해보고 싶으신가요? 아니면 다른 아이디어가 있으시면 말씀해주세요! 💡`, true);
+            }, 1500);
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message === '') return;
+            
+            addMessage("아이유 (UX 리서처)", message);
+            userInput.value = '';
+            
+            // 에이전트 응답 시뮬레이션
+            setTimeout(() => {
+                handleAgentResponse(message);
+            }, 1000 + Math.random() * 2000);
+        }
+
+        function handleAgentResponse(userMessage) {
+            if (gameState.activeAgent === 'mary') {
+                handleMaryResponse(userMessage);
+            }
+        }
+
+        function handleMaryResponse(userMessage) {
+            const responses = [
+                `정말 좋은 아이디어네요! 🎯 이를 바탕으로 구체적인 평가 방법을 설계해볼까요?<br><br>
+                제안하신 내용을 보니 <strong>"사용자 여정 기반 평가"</strong>가 적합할 것 같습니다.<br><br>
+                
+                다음 단계로는:<br>
+                1️⃣ 핵심 사용자 여정 3-5개 정의<br>
+                2️⃣ 각 여정별 평가 지표 설정<br>
+                3️⃣ 측정 방법 및 도구 선택<br><br>
+                
+                PM 에이전트와 함께 이를 체계적인 PRD로 만들어볼까요?`,
+                
+                `흥미로운 관점이에요! 🤔 이런 접근은 어떨까요?<br><br>
+                
+                <strong>"혼합 평가 방법론"</strong>을 제안드려요:<br>
+                • 정량적 평가: 완료율, 시간, 에러율<br>  
+                • 정성적 평가: 사용자 인터뷰, 관찰<br>
+                • 자동화 평가: A/B 테스트, 히트맵 분석<br><br>
+                
+                각 방법의 비중을 어떻게 가져가고 싶으신지요?`,
+                
+                `와! 정말 체계적으로 생각하고 계시네요! 👏<br><br>
+                
+                말씀하신 내용을 종합하면, 우리에게 필요한 것은:<br>
+                ✅ 사용자 중심의 평가 기준<br>
+                ✅ 실무진이 쉽게 실행할 수 있는 방법<br>  
+                ✅ 정량적 결과로 의사결정 지원<br><br>
+                
+                이제 PM 에이전트를 호출해서 이 아이디어들을 구체적인 요구사항 문서로 만들어볼까요?<br><br>
+                
+                아니면 Architect 에이전트와 함께 평가 시스템의 전체적인 구조를 먼저 설계해볼 수도 있어요!`
+            ];
+            
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            addMessage("Mary", randomResponse, true);
+            
+            updateProgress(gameState.progress + 10);
+            
+            // 다음 단계 옵션 제공
+            if (gameState.progress >= 30) {
+                setTimeout(() => {
+                    showNextStageOptions();
+                }, 2000);
+            }
+        }
+
+        function showNextStageOptions() {
+            document.getElementById('inputArea').style.display = 'none';
+            
+            const optionsHtml = `
+                <div style="margin: 20px 0; padding: 15px; background-color: #2a2a0a; border: 1px solid #ffff00;">
+                    <h3>🎯 다음 단계 선택:</h3>
+                    <button class="option" onclick="callPM()">
+                        📋 PM과 PRD(요구사항 문서) 작성하기
+                    </button>
+                    <button class="option" onclick="callArchitect()">
+                        🏗️ Architect와 평가 시스템 설계하기
+                    </button>
+                    <button class="option" onclick="continueWithMary()">
+                        🧠 Mary와 더 깊은 브레인스토밍 계속하기
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('gameArea').innerHTML += optionsHtml;
+        }
+
+        function callPM() {
+            gameState.activeAgent = 'pm';
+            gameState.currentStage = 'prd_creation';
+            updateProgress(50);
+            
+            addMessage("시스템", "🔄 PM 에이전트 호출 중...");
+            
+            setTimeout(() => {
+                addMessage("PM", `안녕하세요! PM 에이전트입니다. 📋<br><br>
+                
+                Mary와의 브레인스토밍 결과를 검토했습니다. 정말 훌륭한 아이디어들이네요!<br><br>
+                
+                <div class="document-preview">
+                <strong>📝 PRD 초안 자동 생성 완료:</strong><br><br>
+                
+                <strong>1. 프로젝트 목표</strong><br>
+                - 모바일 쇼핑앱 'ShopEasy' UX 평가 방법론 수립<br>
+                - 사용자 만족도 개선을 위한 데이터 기반 의사결정 지원<br><br>
+                
+                <strong>2. 핵심 평가 영역</strong><br>
+                - 사용자 여정별 완료율 측정<br>
+                - 인터페이스 직관성 평가<br>  
+                - 접근성 준수 여부 확인<br><br>
+                
+                <strong>3. 성공 지표 (KPI)</strong><br>
+                - 구매 완료율: 현재 대비 15% 개선<br>
+                - 사용자 만족도: 4.2/5.0 이상<br>
+                - 평균 구매 시간: 30% 단축<br>
+                </div>
+                
+                이 PRD를 바탕으로 구체적인 평가 방법론을 설계하시겠어요?`, true);
+                
+                document.getElementById('inputArea').style.display = 'block';
+            }, 2000);
+        }
+
+        function callArchitect() {
+            gameState.activeAgent = 'architect';  
+            gameState.currentStage = 'system_design';
+            updateProgress(55);
+            
+            addMessage("시스템", "🏗️ Architect 에이전트 활성화 중...");
+            
+            setTimeout(() => {
+                addMessage("Architect", `안녕하세요! 시스템 아키텍트입니다. 🏗️<br><br>
+                
+                브레인스토밍 결과를 바탕으로 UX 평가 시스템의 전체 구조를 설계해드리겠습니다.<br><br>
+                
+                <div class="document-preview">  
+                <strong>🔧 UX 평가 시스템 아키텍처:</strong><br><br>
+                
+                <strong>1. 데이터 수집 레이어</strong><br>
+                ├─ 사용자 행동 추적 (Google Analytics, Mixpanel)<br>
+                ├─ 앱 내 사용성 메트릭 수집<br>
+                └─ 사용자 피드백 수집 시스템<br><br>
+                
+                <strong>2. 분석 & 평가 레이어</strong><br>  
+                ├─ 자동화된 사용성 분석<br>
+                ├─ A/B 테스트 플랫폼<br>
+                └─ 히트맵 & 사용자 여정 분석<br><br>
+                
+                <strong>3. 리포팅 & 액션 레이어</strong><br>
+                ├─ 실시간 대시보드<br>
+                ├─ 정기 UX 리포트 자동 생성<br>
+                └─ 개선 권고사항 도출<br>
+                </div>
+                
+                이 구조에서 어떤 부분부터 구체화하고 싶으신가요?`, true);
+                
+                document.getElementById('inputArea').style.display = 'block';
+            }, 2500);
+        }
+
+        function continueWithMary() {
+            addMessage("Mary", `계속 함께 해주셔서 감사해요! 🎉<br><br>
+            
+            더 창의적인 아이디어를 위해 <strong>"무작위 창의적 혼돈"</strong> 기법을 시도해볼까요?<br><br>
+            
+            🎲 랜덤 시나리오들:<br>
+            • "만약 사용자가 한 손으로만 폰을 써야 한다면?"<br>
+            • "시각 장애인이 음성으로만 쇼핑한다면?"<br>
+            • "3초 안에 구매 결정을 해야 하는 상황이라면?"<br>
+            • "와이파이가 매우 느린 환경이라면?"<br><br>
+            
+            이런 극단적 상황들을 고려한 UX 평가 방법도 필요할까요?`, true);
+            
+            document.getElementById('inputArea').style.display = 'block';
+            updateProgress(40);
+        }
+
+        function checkTemplates() {
+            addMessage("시스템", `📋 UX 평가 템플릿 라이브러리 접근 중...<br><br>
+            
+            <div class="document-preview">
+            <strong>🎯 사용 가능한 평가 템플릿들:</strong><br><br>
+            
+            1️⃣ <strong>Nielsen's 10 Usability Heuristics</strong><br>
+            - 가시성, 일관성, 오류 방지 등 10개 휴리스틱<br>
+            - 체크리스트 형태로 구성<br><br>
+            
+            2️⃣ <strong>System Usability Scale (SUS)</strong><br>  
+            - 10개 질문으로 구성된 표준화된 설문<br>
+            - 0-100 점수로 사용성 측정<br><br>
+            
+            3️⃣ <strong>Customer Journey Mapping</strong><br>
+            - 터치포인트별 사용자 경험 분석<br>
+            - 감정 곡선 및 페인포인트 식별<br><br>
+            
+            4️⃣ <strong>HEART Framework (Google)</strong><br>
+            - Happiness, Engagement, Adoption, Retention, Task Success<br>
+            - 각 지표별 구체적 측정 방법 제공<br>
+            </div>
+            
+            어떤 템플릿을 기반으로 Mary와 브레인스토밍을 시작하고 싶으신가요?`);
+            
+            document.getElementById('optionsArea').innerHTML = `
+                <button class="option" onclick="chooseTemplate('nielsen')">
+                    ✅ Nielsen 휴리스틱 기반 평가 방법 개발
+                </button>
+                <button class="option" onclick="chooseTemplate('heart')">  
+                    💖 HEART 프레임워크 기반 평가 시스템
+                </button>
+                <button class="option" onclick="chooseTemplate('journey')">
+                    🗺️ 고객 여정 기반 UX 평가 방법론
+                </button>
+                <button class="option" onclick="startBrainstorming()">
+                    🚀 템플릿 없이 자유로운 브레인스토밍
+                </button>
+            `;
+        }
+
+        function chooseTemplate(template) {
+            gameState.selectedTemplate = template;
+            updateProgress(25);
+            
+            const templateInfo = {
+                'nielsen': {
+                    name: "Nielsen's 10 Usability Heuristics", 
+                    focus: "인터페이스 디자인 원칙 기반 평가"
+                },
+                'heart': {
+                    name: "HEART Framework",
+                    focus: "사용자 행동 지표 기반 측정"  
+                },
+                'journey': {
+                    name: "Customer Journey Mapping",
+                    focus: "사용자 여정 전 과정 분석"
+                }
+            };
+            
+            addMessage("시스템", `✅ ${templateInfo[template].name} 선택됨<br>
+            📊 초점: ${templateInfo[template].focus}<br><br>
+            Mary 에이전트와 선택된 템플릿을 기반으로 브레인스토밍을 시작합니다...`);
+            
+            setTimeout(() => {
+                startTemplateBasedBrainstorming(template);
+            }, 1500);
+        }
+
+        function startTemplateBasedBrainstorming(template) {
+            gameState.activeAgent = 'mary';
+            document.getElementById('optionsArea').style.display = 'none';
+            document.getElementById('inputArea').style.display = 'block';
+            
+            const templatePrompts = {
+                'nielsen': `훌륭한 선택이에요! Nielsen의 10개 휴리스틱을 쇼핑앱에 맞게 커스터마이징해봅시다! 🎯<br><br>
+                
+                <strong>쇼핑앱 특화 휴리스틱들:</strong><br>
+                1️⃣ 상품 검색 결과의 명확한 피드백<br>
+                2️⃣ 장바구니-결제 과정의 일관성<br>  
+                3️⃣ 실수 방지 (중복주문, 잘못된 수량 등)<br>
+                4️⃣ 가격/할인 정보의 가독성<br><br>
+                
+                각 휴리스틱별로 구체적인 평가 체크리스트를 만들어볼까요?<br>
+                어떤 휴리스틱이 ShopEasy에서 가장 중요하다고 생각하시나요?`,
+                
+                'heart': `HEART 프레임워크 선택 완벽해요! 💖<br><br>
+                
+                <strong>ShopEasy HEART 지표 초안:</strong><br>
+                📈 <strong>Happiness:</strong> 앱스토어 리뷰 평점, NPS<br>
+                👥 <strong>Engagement:</strong> 세션당 페이지뷰, 앱 사용시간<br>  
+                🆕 <strong>Adoption:</strong> 신규 사용자 첫 구매율<br>
+                🔄 <strong>Retention:</strong> 월간 활성 사용자율<br>
+                ✅ <strong>Task Success:</strong> 구매 완료율, 검색 성공률<br><br>
+                
+                각 지표별로 목표값과 측정 방법을 정해볼까요?<br>
+                가장 우선순위가 높은 지표는 무엇일까요?`,
+                
+                'journey': `고객 여정 기반 접근! 정말 사용자 중심적이에요! 🗺️<br><br>
+                
+                <strong>ShopEasy 핵심 사용자 여정들:</strong><br>
+                🔍 <strong>상품 발견 여정:</strong> 앱 실행 → 검색/둘러보기 → 상품 선택<br>
+                🛒 <strong>구매 결정 여정:</strong> 상품 상세 → 비교 → 장바구니 추가<br>
+                💳 <strong>결제 완료 여정:</strong> 결제 정보 입력 → 확인 → 주문 완료<br>
+                📦 <strong>사후 관리 여정:</strong> 주문 추적 → 배송 확인 → 리뷰 작성<br><br>
+                
+                각 여정에서 어떤 감정적/기능적 평가 포인트가 중요할까요?<br>
+                특히 어떤 여정에서 사용자가 이탈할 가능성이 높다고 보시나요?`
+            };
+            
+            addMessage("Mary", templatePrompts[template], true);
+        }
+
+        // 키보드 입력 처리
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // 게임 초기화
+        window.onload = function() {
+            console.log('🎮 UX Research Quest 시작!');
+        };
+    </script>
+</body>
+</html>
